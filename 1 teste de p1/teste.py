@@ -24,6 +24,7 @@ GUARDINHA = pygame.image.load(os.path.join(diretorio_imagens, 'guardinha.png')).
 CAFE = pygame.image.load(os.path.join(diretorio_imagens, 'coffee.png')).convert_alpha()
 PIZZA = pygame.image.load(os.path.join(diretorio_imagens, 'pizza.png')).convert_alpha()
 COXINHA = pygame.image.load(os.path.join(diretorio_imagens, 'coxinha.png')).convert_alpha()
+CACHORRO = pygame.image.load(os.path.join(diretorio_imagens, 'cachorro.png')).convert_alpha()
 
 
 def reiniciar():
@@ -98,6 +99,31 @@ class Guardinha(pygame.sprite.Sprite):
       self.rect.x = largura
     self.rect.x -= velocidade_jogo
 
+  #CACHORRO CLASS
+class Cachorro(pygame.sprite.Sprite):
+  def __init__(self):
+    pygame.sprite.Sprite.__init__(self)
+    self.imagens_cachorro = []
+    for i in range(3):
+      img = GUARDINHA.subsurface((40*6, (i * 40)+1), (40, 24))
+      img = pygame.transform.scale(img, (40 * 3, 24 * 3))
+      self.imagens_cachorro.append(img)
+    self.index_lista = 0
+    self.image = self.imagens_cachorro[self.index_lista]
+    self.rect = self.image.get_rect()
+    self.pos_y = altura - 64 - 96 // 2 + 25
+    self.rect.center = (largura, self.pos_y)
+  def update(self):
+    #index da sprite
+    if self.index_lista > 5:
+      self.index_lista = 0
+    self.index_lista += 0.25
+    self.image = self.imagens_cachorro[int(self.index_lista)]
+
+    if self.rect.topright[0] < 0:
+      self.rect.x = largura
+    self.rect.x -= velocidade_jogo
+
 
 #COFFEE CLASS
 class Cafe(pygame.sprite.Sprite):
@@ -115,8 +141,6 @@ class Cafe(pygame.sprite.Sprite):
       self.rect.x = largura
       self.coletado = False
     self.rect.x -= velocidade_jogo
-
-#adicionar na lista para usar no loop
 
 colecao_sprites = pygame.sprite.Group()
 estagiario = Estagiario()
@@ -140,8 +164,6 @@ points = 0
 obstacles = []
 death_count = 0
 
-#loop do jogo
-
 while run:
   relogio.tick(30)
   tela.fill((255,255,255))
@@ -154,8 +176,6 @@ while run:
         estagiario.pular()
       if event.key == K_r and estagiario.colisao(guardinha):
         reiniciar()
-
- #colisoes 
 
   colisoes = pygame.sprite.spritecollide(estagiario, coletaveis, True)
 

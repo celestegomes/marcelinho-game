@@ -116,6 +116,8 @@ class Cafe(pygame.sprite.Sprite):
       self.coletado = False
     self.rect.x -= velocidade_jogo
 
+#adicionar na lista para usar no loop
+
 colecao_sprites = pygame.sprite.Group()
 estagiario = Estagiario()
 colecao_sprites.add(estagiario)
@@ -138,6 +140,8 @@ points = 0
 obstacles = []
 death_count = 0
 
+#loop do jogo
+
 while run:
   relogio.tick(30)
   tela.fill((255,255,255))
@@ -150,6 +154,8 @@ while run:
         estagiario.pular()
       if event.key == K_r and estagiario.colisao(guardinha):
         reiniciar()
+
+ #colisoes 
 
   colisoes = pygame.sprite.spritecollide(estagiario, coletaveis, True)
 

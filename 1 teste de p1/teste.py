@@ -17,18 +17,26 @@ velocidade_jogo = 10
 tela = pygame.display.set_mode((largura, altura))
 pygame.display.set_caption('Marcelinho Delivery')
 
+#função para pontuação
+
+def exibe_mensagem(msg, tamanho, cor):
+    fonte = pygame.font.SysFont('comicsansms', tamanho, True, False)
+    mensagem = f'{msg}' 
+    texto_formatado = fonte.render(mensagem, True, cor)
+    return texto_formatado
 
 #sprites usadas
+
 sprite_sheet = pygame.image.load(os.path.join(diretorio_imagens, 'persona_1.png')).convert_alpha()
 GUARDINHA = pygame.image.load(os.path.join(diretorio_imagens, 'guardinha.png')).convert_alpha()
 CAFE = pygame.image.load(os.path.join(diretorio_imagens, 'coffee.png')).convert_alpha()
 PIZZA = pygame.image.load(os.path.join(diretorio_imagens, 'pizza.png')).convert_alpha()
 COXINHA = pygame.image.load(os.path.join(diretorio_imagens, 'coxinha.png')).convert_alpha()
-CACHORRO = pygame.image.load(os.path.join(diretorio_imagens, 'cachorro.png')).convert_alpha()
 
+#funçao para reiniciar
 
 def reiniciar():
-  global pontos, velocidade_jogo, colidiu, escolha_obstaculo
+  global pontos, velocidade_jogo, colidiu, escolha_obstaculo, pizzaa, cafee
   pontos = 0
   velocidade_jogo = 10
   colidiu = False
@@ -36,6 +44,9 @@ def reiniciar():
   estagiario.pulo = False
   guardinha.rect.x = largura
   cafe.rect.x = largura
+  pizza.rect.x = largura
+  pizzaa = 0
+  cafee = 0
 
 ##PLAYER CLASS
 class Estagiario(pygame.sprite.Sprite):
@@ -99,34 +110,26 @@ class Guardinha(pygame.sprite.Sprite):
       self.rect.x = largura
     self.rect.x -= velocidade_jogo
 
-  #CACHORRO CLASS
-class Cachorro(pygame.sprite.Sprite):
-  def __init__(self):
-    pygame.sprite.Sprite.__init__(self)
-    self.imagens_cachorro = []
-    for i in range(3):
-      img = GUARDINHA.subsurface((40*6, (i * 40)+1), (40, 24))
-      img = pygame.transform.scale(img, (40 * 3, 24 * 3))
-      self.imagens_cachorro.append(img)
-    self.index_lista = 0
-    self.image = self.imagens_cachorro[self.index_lista]
-    self.rect = self.image.get_rect()
-    self.pos_y = altura - 64 - 96 // 2 + 25
-    self.rect.center = (largura, self.pos_y)
-  def update(self):
-    #index da sprite
-    if self.index_lista > 5:
-      self.index_lista = 0
-    self.index_lista += 0.25
-    self.image = self.imagens_cachorro[int(self.index_lista)]
-
-    if self.rect.topright[0] < 0:
-      self.rect.x = largura
-    self.rect.x -= velocidade_jogo
-
 
 #COFFEE CLASS
 class Cafe(pygame.sprite.Sprite):
+  def __init__(self):
+    pygame.sprite.Sprite.__init__(self)
+    self.image = PIZZA
+    self.image = pygame.transform.scale(self.image, (32,32))
+    self.rect = self.image.get_rect()
+    self.mask = pygame.mask.from_surface(self.image)
+    self.rect.center = (largura, altura - 64 - 96 // 2 + 25)
+    self.rect.x = largura
+    self.coletado = False
+  def update(self):
+    if self.rect.right <= 0:
+      self.rect.x = largura
+      self.coletado = False
+    self.rect.x -= velocidade_jogo
+
+#pizza CLASS
+class Pizza(pygame.sprite.Sprite):
   def __init__(self):
     pygame.sprite.Sprite.__init__(self)
     self.image = CAFE
@@ -140,7 +143,9 @@ class Cafe(pygame.sprite.Sprite):
     if self.rect.right <= 0:
       self.rect.x = largura
       self.coletado = False
-    self.rect.x -= velocidade_jogo
+    self.rect.x -= (velocidade_jogo - 5)
+
+#adicionando as listas
 
 colecao_sprites = pygame.sprite.Group()
 estagiario = Estagiario()
@@ -152,21 +157,31 @@ colecao_sprites.add(guardinha)
 cafe = Cafe()
 colecao_sprites.add(cafe)
 
+pizza = Pizza()
+colecao_sprites.add(pizza)
 
 coletaveis = pygame.sprite.Group()
 coletaveis.add(cafe)
+coletaveis.add(pizza)
 
+#auxiliares
 
 run = True
 relogio = pygame.time.Clock()
 game_speed = 20
-points = 0
 obstacles = []
 death_count = 0
+cafee = 0
+pizzaa = 0
+
+#loop principal
 
 while run:
+  total = cafee + pizzaa
   relogio.tick(30)
   tela.fill((255,255,255))
+  texto_pontos_cafee = exibe_mensagem(cafee, 40, (0,0,0))
+  texto_pontos_pizzaa = exibe_mensagem(pizzaa, 40, (0,0,0))
   for event in pygame.event.get():
     if event.type == QUIT:
       pygame.quit()
@@ -176,21 +191,23 @@ while run:
         estagiario.pular()
       if event.key == K_r and estagiario.colisao(guardinha):
         reiniciar()
-
-  colisoes = pygame.sprite.spritecollide(estagiario, coletaveis, True)
-
-  if colisoes:
-    cafe.coletado = True
-
-  if cafe.coletado:
-    cafe.rect.x = largura
-    cafe.rect.y = random.randint(0, altura - 64 - 96 // 2)
-
+ 
+  if estagiario.colisao(cafe):
+    colisoes = pygame.sprite.spritecollide(estagiario, coletaveis, False)
+    cafee += 10
+  if estagiario.colisao(pizza):
+    colisoes = pygame.sprite.spritecollide(estagiario, coletaveis, False)
+    pizzaa += 50
+  
   if estagiario.colisao(guardinha):
+    pass
     print('GAME OVER')
-    
-  guardinha.update()
-  estagiario.update()
+  else:
+    guardinha.update()
+    estagiario.update()
+    colecao_sprites.update()
+
+  tela.blit(texto_pontos_cafee, (520, 30)) 
+  tela.blit(texto_pontos_pizzaa, (380 , 30))
   colecao_sprites.draw(tela)
-  colecao_sprites.update()
   pygame.display.flip()

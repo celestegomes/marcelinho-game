@@ -27,18 +27,38 @@ def exibe_mensagem(msg, tamanho, cor):
 
 #Tela inicial
 def menu():
+  #Musica da tela inicial
+  pygame.mixer.music.load(os.path.join(diretorio_musicas, 'dressup.mp3'))
+  pygame.mixer.music.play()
+  #Arte da tela inicial
   tela.fill((0,0,0))
   texto_inicial = exibe_mensagem('Pressione ESPAÇO', 35, ('yellow'))
   tela.blit(texto_inicial, (160, 300))
   arte_logo = pygame.transform.scale(LOGO, (largura,altura/2))
   tela.blit(arte_logo, (0,0))
-  nome_hugo = exibe_mensagem('Ilustration by Hugo Albuquerque', 10, ('white'))
+  nome_hugo = exibe_mensagem('Ilustração por Hugo Albuquerque', 10, ('white'))
   tela.blit(nome_hugo, (altura, altura / 2))
   texto_desenvolvido = exibe_mensagem('Desenvolvido por:', 15, ('white'))
   tela.blit(texto_desenvolvido, (240, 400))
   texto_desenvolvido = exibe_mensagem('Beatriz Helena, Larissa Gomes, Maria Antônia, Williams Andrade', 18, ('white'))
-  tela.blit(texto_desenvolvido, (25, 420))
+  tela.blit(texto_desenvolvido, (28, 420))
   pygame.display.flip()
+
+#Tela final
+def tela_final():
+  tela.fill((0,0,0))
+  texto_inicial = exibe_mensagem('Pressione ESPAÇO', 20, ('yellow'))
+  tela.blit(texto_inicial, (220, 400 ))
+  texto_final = exibe_mensagem('GAME OVER', 50, ('red'))
+  tela.blit(texto_final, (160, 300))
+  score_total = exibe_mensagem(f'SCORE TOTAL {total}', 15, ('white'))
+  tela.blit(score_total, (240, 360))
+  arte_logo = pygame.transform.scale(LOGO, (largura,altura/2))
+  tela.blit(arte_logo, (0,0))
+  nome_hugo = exibe_mensagem('Ilustração por Hugo Albuquerque', 10, ('white'))
+  tela.blit(nome_hugo, (altura, altura / 2))
+  pygame.display.flip()
+  pressionar_espaço()
 
 #Pressionar espaço
 def pressionar_espaço():
@@ -54,7 +74,6 @@ def pressionar_espaço():
         run = True
   return run
 
-
 #Sprites usadas
 sprite_sheet = pygame.image.load(os.path.join(diretorio_imagens, 'persona_1.png')).convert_alpha()
 GUARDINHA = pygame.image.load(os.path.join(diretorio_imagens, 'guardinha.png')).convert_alpha()
@@ -62,11 +81,11 @@ CAFE = pygame.image.load(os.path.join(diretorio_imagens, 'coffee.png')).convert_
 PIZZA = pygame.image.load(os.path.join(diretorio_imagens, 'pizza.png')).convert_alpha()
 COXINHA = pygame.image.load(os.path.join(diretorio_imagens, 'coxinha.png')).convert_alpha()
 LOGO = pygame.image.load(os.path.join(diretorio_imagens, 'logo.png')).convert_alpha()
+LIFE = pygame.image.load(os.path.join(diretorio_imagens, 'life.png')).convert_alpha()
 
 #Funçao para reiniciar
 def reiniciar():
   global pontos, velocidade_jogo, colidiu, escolha_obstaculo, pizzaa, cafee, coxinhaa
-  pontos = 0
   velocidade_jogo = 10
   colidiu = False
   estagiario.rect.y = altura - 64 - 96 // 2
@@ -75,9 +94,6 @@ def reiniciar():
   cafe.rect.x = largura
   pizza.rect.x = largura
   coxinha.rect.x = largura
-  pizzaa = 0
-  cafee = 0
-  coxinhaa = 0
 
 ##PLAYER CLASS
 class Estagiario(pygame.sprite.Sprite):
@@ -218,14 +234,16 @@ coletaveis.add(coxinha)
 relogio = pygame.time.Clock()
 game_speed = 20
 obstacles = []
-death_count = 0
 cafee = 0
 pizzaa = 0
 coxinhaa = 0
 move = 0
 move_2 = 640
 flag = 0
-
+game_over_count = 0
+lifex_1 = 500
+lifex_2 = 520
+lifex_3 = 540
 
 #Loop principal
 menu()
@@ -233,7 +251,8 @@ tecla_espaço = pressionar_espaço()
 while tecla_espaço:
   total = cafee + pizzaa + coxinhaa
   relogio.tick(30)
-  # background inicio
+
+  #Background inicio
   tela_fundo = pygame.image.load('background.jpg')
   background = pygame.transform.scale(tela_fundo, (640, 450))
   if flag == 0:
@@ -245,10 +264,12 @@ while tecla_espaço:
         move = 0
   else:
     tela.blit(background, (move,0))
-# background final
+  #Background final
+
   texto_pontos_cafee = exibe_mensagem(cafee, 40, (0,0,0))
   texto_pontos_pizzaa = exibe_mensagem(pizzaa, 40, (0,0,0))
   texto_pontos_coxinhaa = exibe_mensagem(coxinhaa, 40, (0,0,0))
+
   for event in pygame.event.get():
     if event.type == QUIT:
       pygame.quit()
@@ -259,7 +280,9 @@ while tecla_espaço:
       if event.key == K_SPACE and estagiario.colisao(guardinha):
         reiniciar()
         flag = 0
- 
+        game_over_count += 1
+
+  #Contabilizando colisoes
   if estagiario.colisao(cafe):
     colisoes = pygame.sprite.spritecollide(estagiario, coletaveis, False)
     cafe.rect.x = largura
@@ -275,18 +298,34 @@ while tecla_espaço:
   
   if estagiario.colisao(guardinha):
     flag = 1
-    pass
+    if game_over_count == 0:
+      lifex_1 = largura*2
+    elif game_over_count == 1:
+      lifex_2 = largura*2
+    else:
+      lifex_3 = largura*2
+      tela_final()
+      tecla_espaço = False
+
+
+
   else:
     guardinha.update()
     estagiario.update()
     colecao_sprites.update()
 
-  tela.blit(texto_pontos_cafee, (520, 30))
-  tela.blit(CAFE, (480,45))
-  tela.blit(texto_pontos_pizzaa, (380 , 30))
-  tela.blit(PIZZA, (340,45))
+  LIFE = pygame.transform.scale(LIFE, (25, 25))
+  tela.blit(LIFE, (lifex_1, 10))
+  tela.blit(LIFE, (lifex_2, 10))
+  tela.blit(LIFE, (lifex_3, 10))
+  tela.blit(texto_pontos_cafee, (560, 30))
+  tela.blit(CAFE, (520,45))
+  tela.blit(texto_pontos_pizzaa, (460 , 30))
+  tela.blit(PIZZA, (420,45))
   img_aumentada = pygame.transform.scale(COXINHA, (16 * 4, 16 * 4))
-  tela.blit(texto_pontos_coxinhaa, (240 , 30))
-  tela.blit(img_aumentada, (185,25))
+  tela.blit(texto_pontos_coxinhaa, (360 , 30))
+  tela.blit(img_aumentada, (300,25))
+  logo_game = pygame.transform.scale(LOGO, (125,58))
+  tela.blit(logo_game, (20,20))
   colecao_sprites.draw(tela)
   pygame.display.flip()

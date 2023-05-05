@@ -137,8 +137,8 @@ class Guardinha(pygame.sprite.Sprite):
     pygame.sprite.Sprite.__init__(self)
     self.imagens_guardinha = []
     for i in range(3):
-      img = GUARDINHA.subsurface((16*3, (i * 16)+1), (16, 16))
-      img = pygame.transform.scale(img, (16 * 3, 16 * 3))
+      img = GUARDINHA.subsurface((16*3, (i * 12)+1), (16, 12))
+      img = pygame.transform.scale(img, (16 * 3, 12 * 3))
       self.imagens_guardinha.append(img)
     self.index_lista = 0
     self.image = self.imagens_guardinha[self.index_lista]

@@ -30,19 +30,19 @@ FERRAMENTAS, BIBLIOTECAS E FRAMEWORKS
   Utilizamos as bibliotecas PYGAME e OS. O Pygame nos permitiu modelar quase o jogo inteiro, ele possibilitou o upload de mídias, modelagem das imagens, criação de textos em tela e também funcionalidades como: movimentação do player (pulo), reconhecimento de colisão, movimentação dos objetos coletáveis, aplicação de background e outras. A biblioteca OS ajudou muito na automatização de processos como o upload de imagens.
 
 DIVISÃO DO TRABALHO
+
 Código:
 
-  Código base - As movimentações do player e dos elementos coletáveis foram escritas por Beatriz Helena e Williams Andrade (Larissa Gomes e Maria Antônia participaram de algumas soluções, como: tornar o elemento coletável assim que houvesse uma colisão).
-  Parte gráfica - As sprites do jogo foram adquiridas em sites que disponibilizam artes de graça para pequenos desenvolvedores e algumas foram criadas por um amigo da equipe. No código, a aplicação dessas sprites foi feita por todos os membros (sprites de player e coletáveis - Beatriz e Williams -, sprites de tela inicial e background - Larissa e Maria.
-  Funções do código - Sempre que surgia a necessidade de uma nova função o membro que estava “codando” a criava e os outros utilizavam-na em outra parte do código.
-  Gerenciamento de tarefas - Não foram definidas tarefas propriamente ditas, cada membro teve autonomia de escolher o que fazer e todos ajudaram na criação de cada bloco de código, seja com pesquisa ou realmente escrevendo.
-  Relatório:
-O relatório foi escrito por Maria Antônia e revisado pelos outros membros da equipe.
+1. Código base - As movimentações do player e dos elementos coletáveis foram escritas por Beatriz Helena e Williams Andrade (Larissa Gomes e Maria Antônia participaram de algumas soluções, como: tornar o elemento coletável assim que houvesse uma colisão).
+2. Parte gráfica - As sprites do jogo foram adquiridas em sites que disponibilizam artes de graça para pequenos desenvolvedores e algumas foram criadas por um amigo da equipe. No código, a aplicação dessas sprites foi feita por todos os membros (sprites de player e coletáveis - Beatriz e Williams -, sprites de tela inicial e background - Larissa e Maria.
+3. Funções do código - Sempre que surgia a necessidade de uma nova função o membro que estava “codando” a criava e os outros utilizavam-na em outra parte do código.
+4. Gerenciamento de tarefas - Não foram definidas tarefas propriamente ditas, cada membro teve autonomia de escolher o que fazer e todos ajudaram na criação de cada bloco de código, seja com pesquisa ou realmente escrevendo.
+5. Relatório:
+O relatório foi escrito por Maria Antônia com a contribuição e revisão dos outros membros da equipe.
 
 CONCEITOS DA DISCIPLINA
 
-  Utilizamos bastantes os conteúdos aprendidos ao longo da disciplina, como por exemplo: Funções, condicionais e Laços.
-  Os mais utilizados foram: Funções e Laços. O código do projeto depende muito desses dois recursos de Python, a estrutura dele é inteiramente baseada no conceito de loops e utiliza diversas funções. No geral, o loop utilizado integra os outros assuntos, ele é a estrutura base e as funções e condições são auxiliares.
+Utilizamos bastantes os conteúdos aprendidos ao longo da disciplina, como por exemplo: Funções, condicionais e Laços. Os mais utilizados foram: Funções e Laços. O código do projeto depende muito desses dois recursos de Python, a estrutura dele é inteiramente baseada no conceito de loops e utiliza diversas funções. No geral, o loop utilizado integra os outros assuntos, ele é a estrutura base e as funções e condições são auxiliares.
 
 DESAFIOS E ERROS
 
@@ -57,6 +57,9 @@ DESAFIOS E ERROS
 3. Quais lições aprenderam?
 
   Uma das lições foi: primeiro aprender a lidar com a biblioteca, depois programar com ela. Os bugs que vêm depois quando você altera algo mínimo, acabam sendo os maiores desafios para lidar, então é melhor programar sabendo o que está fazendo e não apenas repetir blocos de códigos.
+  
   Aprendemos que o planejamento pode ser considerado como 50% de um projeto, fazê-lo de qualquer jeito ou ignorá-lo pode ser um empecilho ao longo da criação de um jogo, por exemplo.
+  
   Também entendemos a importância do trabalho em equipe, ter e ser o suporte de alguém pode ser um fator muito importante no desenvolvimento de uma aplicação, não iríamos prosseguir em algumas etapas sem a ajuda um do outro.
+  
   Em resumo, tivemos muitas complicações (problemas com o tamanho da sprite, problemas com a coleta dos objetos, problemas com  a falta de tempo de alguns integrantes, problemas com a parte de reinicialização do game, etc) ao longo do projeto, porém conseguimos ser resilientes o suficiente para não desistir e continuar tentando até acertar.

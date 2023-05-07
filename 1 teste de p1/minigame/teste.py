@@ -14,6 +14,7 @@ largura = 640
 altura = 480
 y = 400
 velocidade_jogo = 10
+run = True
 
 tela = pygame.display.set_mode((largura, altura))
 pygame.display.set_caption('Marcelinho Delivery')
@@ -55,10 +56,13 @@ def tela_final():
   tela.blit(score_total, (240, 360))
   arte_logo = pygame.transform.scale(LOGO, (largura,altura/2))
   tela.blit(arte_logo, (0,0))
-  nome_hugo = exibe_mensagem('Ilustração por Hugo Albuquerque', 10, ('white'))
+  nome_hugo = exibe_mensagem('Ilustração por Hugo Albuquerque', 10, ('white'))/
   tela.blit(nome_hugo, (altura, altura / 2))
   pygame.display.flip()
   pressionar_espaço()
+  if run == True:
+    reiniciar()
+    menu()
 
 #Pressionar espaço
 def pressionar_espaço():
@@ -137,8 +141,8 @@ class Guardinha(pygame.sprite.Sprite):
     pygame.sprite.Sprite.__init__(self)
     self.imagens_guardinha = []
     for i in range(3):
-      img = GUARDINHA.subsurface((16*3, (i * 12)+1), (16, 12))
-      img = pygame.transform.scale(img, (16 * 3, 12 * 3))
+      img = GUARDINHA.subsurface((12*3, (i * 16)), (12, 16))
+      img = pygame.transform.scale(img, (12 * 3, 16 * 3))
       self.imagens_guardinha.append(img)
     self.index_lista = 0
     self.image = self.imagens_guardinha[self.index_lista]

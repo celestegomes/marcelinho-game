@@ -3,9 +3,7 @@ Trabalho de conclusão da cadeira de Programação 1 para o curso de Sistemas de
 
 # RELATÓRIO DO PROJETO
 
-Nome do projeto: LITTLE MARCELO
-Integrantes do grupo: Beatriz Helena, Larissa Gomes, Maria Antônia e Williams Andrade
-Docente da disciplina responsável: Filipe Calegario
+Nome do projeto: LITTLE MARCELO<br />Integrantes do grupo: Beatriz Helena, Larissa Gomes, Maria Antônia e Williams Andrade
 
 ORGANIZAÇÃO DO CÓDIGO
 

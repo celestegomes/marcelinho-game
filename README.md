@@ -29,7 +29,7 @@ Finalidade das funções, classes e listas:
 	
 FERRAMENTAS, BIBLIOTECAS E FRAMEWORKS
 
-	Utilizamos as bibliotecas PYGAME e OS. O Pygame nos permitiu modelar quase o jogo inteiro, ele possibilitou o upload de mídias, modelagem das imagens, criação de textos em tela e também funcionalidades como: movimentação do player (pulo), reconhecimento de colisão, movimentação dos objetos coletáveis, aplicação de background e outras. A biblioteca OS
+	Utilizamos as bibliotecas PYGAME e OS. O Pygame nos permitiu modelar quase o jogo inteiro, ele possibilitou o upload de mídias, modelagem das imagens, criação de textos em tela e também funcionalidades como: movimentação do player (pulo), reconhecimento de colisão, movimentação dos objetos coletáveis, aplicação de background e outras. A biblioteca OS ajudou muito na automatização de processos como o upload de imagens.
 
 DIVISÃO DO TRABALHO
 Código:
